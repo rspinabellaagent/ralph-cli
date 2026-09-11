@@ -135,12 +135,13 @@ All others are optional (defaults to 0 for counts, omitted for routing fields).
 
 See `scripts/insights-append.sh --help` for the full interface.
 
-## Org runtime receipts(参照)
+## Org runtime receipts (reference)
 
-`ralph insights` はイベント集計に加えて、org runtime のモデル受領証
-(`<state-dir>/model-receipts.jsonl`)を既定で読み、`org_id` × `seat_id` で
-tri-state `honored`(true/false/unknown)を集計する Receipts セクションを表示
-する。受領証のスキーマと集計契約の正本は `ralph insights --help` と
-`.claude/rules/ralph/model-routing.md` の「Org runtime model receipts」節を参照。
-このファイルが定義するのはイベント(`events/*.jsonl`)スキーマのみで、受領証
-はコミットされないローカル診断データである点に注意。
+Alongside event aggregation, `ralph insights` reads the org runtime's model
+receipts (`<state-dir>/model-receipts.jsonl`) by default and shows a Receipts
+section aggregating the tri-state `honored` (true/false/unknown) by `org_id` ×
+`seat_id`. The authoritative source for the receipt schema and the aggregation
+contract is `ralph insights --help` and the "Org runtime model receipts" section
+of `.claude/rules/ralph/model-routing.md`. Note that this file defines only the
+event (`events/*.jsonl`) schema; receipts are local diagnostic data and are not
+committed.

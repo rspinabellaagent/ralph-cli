@@ -43,7 +43,7 @@ case "$command" in
     emit_decision "ask" "Recursive delete requires explicit confirmation."
     ;;
   *"gh pr create"*)
-    emit_decision "ask" "gh pr create を検出。/pr スキル（Skill tool）経由で実行していますか？ /pr スキルは日本語テンプレート、事前チェック、プランアーカイブを強制します。直接実行は非推奨です。"
+    emit_decision "ask" "Detected gh pr create. Are you invoking it through the /pr skill? /pr enforces the PR template, the pre-checks, and plan archival. Running it directly is discouraged."
     ;;
 esac
 
@@ -56,7 +56,7 @@ case "$command" in
     # Check if message uses double quotes containing backticks or $(...)
     case "$msg_part" in
       '"'*'`'*|'"'*'$('*)
-        emit_decision "deny" "コミットメッセージのダブルクォート内にバッククォートまたは \$() を検出しました。シェルのコマンド置換として解釈され、環境変数やシークレットが漏洩する恐れがあります。代わりにシングルクォートまたは HEREDOC (<<'EOF') を使用してください。"
+        emit_decision "deny" "Detected a backtick or \$() inside a double-quoted commit message. The shell would interpret it as command substitution, which can leak environment variables or secrets into the commit. Use single quotes or a HEREDOC (<<'EOF') instead."
         ;;
     esac
     ;;

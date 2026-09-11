@@ -67,7 +67,7 @@ func TestRenderRolePrompt_Lead_AllKnownVarsSubstituted(t *testing.T) {
 	vars := testRolePromptVars()
 	vars.Role = "lead"
 	vars.SeatID = "lead"
-	vars.Task = "dry-run 座席を1つ spawn し、typed message を送り、status を確認して disband せよ"
+	vars.Task = "spawn one dry-run seat, send it a typed message, check status, then disband"
 	vars.Envelope = "model_pool: claude/opus, claude/sonnet, claude/haiku | max_seats: 5 | permission default: autonomous"
 	text, ok, err := RenderRolePrompt("lead", vars)
 	if err != nil {

@@ -55,14 +55,14 @@ func TestUnifiedDiff_EmptyToNonEmpty(t *testing.T) {
 	got := UnifiedDiff(nil, []byte("hello\n"), "old", "new")
 	assertContains(t, got, "--- old\n")
 	assertContains(t, got, "│ +hello\n")
-	// Range header must mark the empty old side as `(空)`.
-	assertContains(t, got, "@@ 旧 (空)  →  新 L1 @@")
+	// Range header must mark the empty old side as `(empty)`.
+	assertContains(t, got, "@@ old (empty)  ->  new L1 @@")
 }
 
 func TestUnifiedDiff_NonEmptyToEmpty(t *testing.T) {
 	got := UnifiedDiff([]byte("gone\n"), nil, "old", "new")
 	assertContains(t, got, "│ -gone\n")
-	assertContains(t, got, "@@ 旧 L1  →  新 (空) @@")
+	assertContains(t, got, "@@ old L1  ->  new (empty) @@")
 }
 
 func TestUnifiedDiff_TrailingNewlineDifference(t *testing.T) {
@@ -127,7 +127,7 @@ func TestUnifiedDiff_RangeHeader_SingleLineRange(t *testing.T) {
 	old := []byte("only\n")
 	new := []byte("ONLY\n")
 	got := UnifiedDiff(old, new, "old", "new")
-	assertContains(t, got, "@@ 旧 L1  →  新 L1 @@")
+	assertContains(t, got, "@@ old L1  ->  new L1 @@")
 }
 
 // Files with more than 9 lines must size the gutter to 2 columns minimum.

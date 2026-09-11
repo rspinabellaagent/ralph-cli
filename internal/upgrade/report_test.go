@@ -19,7 +19,7 @@ func fullReportData() UpgradeReportData {
 			{Path: "drift/file.md", RecordedHash: "sha256:aaa", DiskHash: "sha256:bbb", NewHash: "sha256:ccc"},
 		},
 		Advisories: []AdvisoryDiff{
-			{Path: "fork/changed.md", Owner: "fork", Diff: "--- local\n+++ template (v2.0.0)\n@@ 旧 L1  →  新 L1 @@\n 1  1 │  x\n"},
+			{Path: "fork/changed.md", Owner: "fork", Diff: "--- local\n+++ template (v2.0.0)\n@@ old L1  ->  new L1 @@\n 1  1 │  x\n"},
 			{Path: "seed/removed.md", Owner: "seed", Skipped: true, Note: "template no longer has this path"},
 		},
 		LegacySkipped: []string{"legacy/entry.md"},

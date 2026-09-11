@@ -93,7 +93,7 @@ func TestRenderAdvisoryDiffs_MissingDiskFile(t *testing.T) {
 	if !strings.Contains(diff, "+brand new\n") || !strings.Contains(diff, "+content\n") {
 		t.Errorf("expected full-addition diff content, got:\n%s", diff)
 	}
-	if !strings.Contains(diff, "@@ 旧 (空)") {
+	if !strings.Contains(diff, "@@ old (empty)") {
 		t.Errorf("expected empty-old-side range header, got:\n%s", diff)
 	}
 }

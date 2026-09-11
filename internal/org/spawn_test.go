@@ -1091,10 +1091,10 @@ func TestOrgSpawn_RoleTemplate_ExpandsIntoInitialPrompt(t *testing.T) {
 	if strings.Contains(promptArg, "\n") {
 		t.Fatalf("expected the AgentStart prompt arg to be a single line, got:\n%s", promptArg)
 	}
-	if !strings.HasPrefix(promptArg, "役割指示を読み込んで従ってください: ") {
+	if !strings.HasPrefix(promptArg, "Read the role instructions and follow them: ") {
 		t.Fatalf("expected the AgentStart prompt arg to be the file pointer, got %q", promptArg)
 	}
-	promptPath := strings.TrimPrefix(promptArg, "役割指示を読み込んで従ってください: ")
+	promptPath := strings.TrimPrefix(promptArg, "Read the role instructions and follow them: ")
 
 	data, err := os.ReadFile(promptPath)
 	if err != nil {
@@ -1123,7 +1123,7 @@ func TestOrgSpawn_RoleTemplate_PromptFlagAppendedAfterTemplate(t *testing.T) {
 
 	// index 4: [--permission-mode bypassPermissions --model <model> <pointer>].
 	promptArg := h.agentStartArgs[0][4]
-	promptPath := strings.TrimPrefix(promptArg, "役割指示を読み込んで従ってください: ")
+	promptPath := strings.TrimPrefix(promptArg, "Read the role instructions and follow them: ")
 	data, err := os.ReadFile(promptPath)
 	if err != nil {
 		t.Fatalf("expected the prompt file to exist at %q: %v", promptPath, err)
@@ -1585,7 +1585,7 @@ func TestOrgSpawn_LeadSelfSpawn_SingleAgmsgJoin_NoHelloSend(t *testing.T) {
 
 	p := mustSpawnParams("org-a", LeadIdentity)
 	p.Role = LeadIdentity
-	p.Task = "dry-run 座席を spawn し、送信・確認・disband まで行え"
+	p.Task = "spawn a dry-run seat, then send, check and disband"
 	result := o.Spawn(p)
 	if result.Outcome != SpawnOutcomeSpawned {
 		t.Fatalf("expected SpawnOutcomeSpawned, got %v (err=%v)", result.Outcome, result.Err)
@@ -1662,7 +1662,7 @@ func TestOrgSpawn_LeadRole_TaskAndEnvelopeSubstitutedIntoPromptFile(t *testing.T
 
 	p := mustSpawnParams("org-a", LeadIdentity)
 	p.Role = LeadIdentity
-	p.Task = "dry-run 座席を1つ spawn し、typed message を送り、status を確認して disband せよ"
+	p.Task = "spawn one dry-run seat, send it a typed message, check status, then disband"
 	if r := o.Spawn(p); r.Outcome != SpawnOutcomeSpawned {
 		t.Fatalf("spawn failed: %+v", r)
 	}
@@ -1671,7 +1671,7 @@ func TestOrgSpawn_LeadRole_TaskAndEnvelopeSubstitutedIntoPromptFile(t *testing.T
 		t.Fatalf("expected exactly 1 AgentStart call, got %d", len(h.agentStartArgs))
 	}
 	promptArg := h.agentStartArgs[0][len(h.agentStartArgs[0])-1]
-	promptPath := strings.TrimPrefix(promptArg, "役割指示を読み込んで従ってください: ")
+	promptPath := strings.TrimPrefix(promptArg, "Read the role instructions and follow them: ")
 	data, err := os.ReadFile(promptPath)
 	if err != nil {
 		t.Fatalf("expected the prompt file to exist at %q: %v", promptPath, err)

@@ -6,16 +6,24 @@
 
 Scaffold, upgrade, and run opinionated agent harnesses that work with both Claude Code and OpenAI Codex from the same project — small always-on maps, on-demand skills, deterministic hooks, evidence-backed reviews, and an optional autonomous multi-seat execution surface (org runtime).
 
-[![verify](https://github.com/yoshpy-dev/ralph/actions/workflows/verify.yml/badge.svg)](https://github.com/yoshpy-dev/ralph/actions/workflows/verify.yml)
+[![upstream verify](https://github.com/yoshpy-dev/ralph/actions/workflows/verify.yml/badge.svg)](https://github.com/yoshpy-dev/ralph/actions/workflows/verify.yml)
 [![latest release](https://img.shields.io/github/v/release/yoshpy-dev/ralph?sort=semver)](https://github.com/yoshpy-dev/ralph/releases/latest)
 [![Go version](https://img.shields.io/github/go-mod/go-version/yoshpy-dev/ralph)](go.mod)
 [![license](https://img.shields.io/github/license/yoshpy-dev/ralph)](LICENSE)
 [![Homebrew](https://img.shields.io/badge/homebrew-yoshpy--dev%2Ftap%2Fralph-orange)](#install)
 [![downloads](https://img.shields.io/github/downloads/yoshpy-dev/ralph/total)](https://github.com/yoshpy-dev/ralph/releases)
 
-[Why ralph?](#why-ralph) &middot; [Install](#install) &middot; [Quick start](#quick-start) &middot; [Features](#features) &middot; [Commands](#commands) &middot; [Operating loop](#operating-loop) &middot; [Org runtime](#org-runtime-autonomous-multi-seat-execution) &middot; [Language packs](#language-packs) &middot; [Portability](#portability)
+[Why ralph?](#why-ralph) &middot; [Install](#install) &middot; [Quick start](#quick-start) &middot; [Features](#features) &middot; [Commands](#commands) &middot; [Operating loop](#operating-loop) &middot; [Org runtime](#org-runtime-autonomous-multi-seat-execution) &middot; [Lesson memory](#lesson-memory) &middot; [Language packs](#language-packs) &middot; [Portability](#portability)
 
 </div>
+
+> ### This is a fork
+>
+> **`rspinabellaagent/ralph-cli`** — a fork of [`yoshpy-dev/ralph`](https://github.com/yoshpy-dev/ralph) that adds **[lesson memory](#lesson-memory)** and translates the remaining Japanese in the scaffold and CLI output to English.
+>
+> Upstream restricts pull requests to collaborators, so the change could not be offered there directly. The branch is `feat/lesson-memory`; it applies cleanly to upstream `main` if that ever changes.
+>
+> **Install from this fork** — see [Install](#install). There are no published releases here, so it builds from source.
 
 ## Why ralph?
 
@@ -37,6 +45,36 @@ Claude Code gives you a powerful agent, but the default setup is a blank slate. 
 
 ## Install
 
+### This fork (includes lesson memory)
+
+No releases are published here, so build from source. Requires Go 1.25+.
+
+```sh
+git clone https://github.com/rspinabellaagent/ralph-cli
+cd ralph-cli
+go build -o ~/.local/bin/ralph ./cmd/ralph
+```
+
+Verify:
+
+```sh
+ralph version     # reports "dev (unknown unknown)" — see the note below
+ralph doctor
+```
+
+A `go build` does not stamp version metadata; the release workflow does that via
+ldflags. `ralph version` therefore reports `dev (unknown unknown)` on a
+source build. Everything else is unaffected — `ralph init` and `ralph upgrade`
+read the scaffold version from the templates, not from the binary stamp.
+
+If you would rather not install Go on each machine, the alternative is to publish
+releases from this fork: point `REPO=` in `scripts/install.sh` at
+`rspinabellaagent/ralph-cli`, enable Actions, and push a `v*` tag so
+`release.yml` builds the binaries. That is the point at which you are properly
+maintaining a fork, so it is deliberately not done here.
+
+### Upstream (no lesson memory)
+
 ```sh
 # Homebrew
 brew install yoshpy-dev/tap/ralph
@@ -45,12 +83,8 @@ brew install yoshpy-dev/tap/ralph
 curl -fsSL https://raw.githubusercontent.com/yoshpy-dev/ralph/main/scripts/install.sh | sh
 ```
 
-Verify:
-
-```sh
-ralph version
-ralph doctor
-```
+These install upstream's ralph, which does **not** carry lesson memory. They are
+listed for completeness and for comparing behaviour.
 
 ## Quick start
 
@@ -111,7 +145,7 @@ Before claiming a task is done:
 | **Deterministic hooks**<br/>Mojibake guard, commit-msg secret scan, Bash guardrails, verification reminders — pre-wired in `settings.json`. | **Worktree-first flow**<br/>Spec, plan, work, and PR artifacts are produced from clean-base task worktrees, with local cleanup after hand-off. |
 | **Org runtime**<br/>Autonomous multi-seat execution (`ralph org spawn/send/wait/...`) with a typed messaging protocol and pulse-layer watchdog — see [Org runtime](#org-runtime-autonomous-multi-seat-execution). | **Language packs**<br/>TypeScript, Python, Rust, Go, Dart, and Terraform starters (opt-in) with per-language `verify.sh` and path-scoped rules. |
 | **Drift-proof upgrades**<br/>Fully non-interactive `ralph upgrade` — core replace, managed-block update, and settings 3-way merge, with an upgrade report and a dedicated exit code for unresolved drift. | **Evidence over prose**<br/>Every self-review, verify, test, sync-docs, and cross-review triage pass produces a dated artifact in `docs/reports/`. |
-| **Cross-agent portable**<br/>`AGENTS.md` + `scripts/` + `packs/` stay neutral; `.claude/` and `.codex/` are agent-specific layers you can stack others beside. | **Local state, not repo churn**<br/>Worktree lifecycle records live under `git-common-dir`, outside tracked files and branch checkouts. |
+| **Lesson memory**<br/>A committed store of mistakes the repo has already paid for, injected back at four points, with a ladder that forces a repeat offender into a deterministic guard — see [Lesson memory](#lesson-memory). | **Cross-agent portable**<br/>`AGENTS.md` + `scripts/` + `packs/` stay neutral; `.claude/` and `.codex/` are agent-specific layers you can stack others beside. | **Local state, not repo churn**<br/>Worktree lifecycle records live under `git-common-dir`, outside tracked files and branch checkouts. |
 
 ## Commands
 
@@ -182,7 +216,10 @@ The philosophy: **a map, not a manual**. Keep `AGENTS.md` small, push detail int
 ├── .ralph/
 │   ├── core/                 # generation sources ralph init/upgrade consume (e.g. AGENTS.core.md, settings.ralph.json)
 │   └── local/                # downstream extension points: hooks/<event>.d/, verify.d/, test.d/
+├── tests/
+│   └── lessons-smoke.sh     # 129 assertions for the lesson-memory layer
 ├── docs/
+│   ├── lessons/             # committed lesson memory (lessons.jsonl, ACTIVE.md) — ships empty
 │   ├── specs/                # refined specifications from /spec
 │   ├── plans/active/         # plans in flight
 │   ├── plans/archive/        # completed plans
@@ -247,6 +284,114 @@ See `docs/specs/2026-08-01-org-runtime.md` for the full protocol and `.claude/ru
 ## Hooks
 
 `.claude/settings.json` points each event at a single dispatcher entry, `./.claude/hooks/ralph-dispatch.sh <event>`, which fans out in order through `.claude/hooks/<event>.d/` (core), `.ralph/local/hooks/<event>.d/` (downstream local, committed), then `.claude/hooks/local/<event>.d/` (downstream local, gitignored). The core `.d/` entries ship pre-configured: session start context, prompt-level reminders, Bash guardrails, edit/write verification reminders, tool failure feedback, compaction checkpoints, session end summary. Add your own hook by dropping a script into `.ralph/local/hooks/<event>.d/` — no `settings.json` edits needed; both Claude Code and Codex route through the same dispatcher (Codex via `.codex/hooks.json`), with live firing verified on a trusted checkout. Codex additionally requires a one-time interactive hook-trust approval before `codex exec` will fire hooks (see `.codex/README.md`'s Hooks section). Customize `.claude/settings.json` directly; use `.claude/settings.local.json` for personal overrides (gitignored).
+
+Four of the shipped `.d/` entries belong to [lesson memory](#lesson-memory):
+recall at `SessionStart` and `UserPromptSubmit`, a `PreToolUse` guard that
+surfaces a lesson at the moment its command is about to run, and a
+`PostToolUseFailure` fingerprinter that counts repeat failures across sessions
+and worktrees. All four produce no output and exit 0 while the store is empty,
+so a fresh scaffold behaves exactly as it did before.
+
+## Lesson memory
+
+*Added by this fork.*
+
+The scaffold had no memory of its own mistakes. `docs/insights/events/` records
+that verify failed six times but never why; `docs/reports/` is written and never
+read back; `.harness/state/tool_failures.count` resets every session and is
+content-blind; `.claude/rules/ralph/` is the right destination for a lesson, but
+nothing puts one there. And because `/plan` cuts a fresh worktree per task,
+anything under `.harness/state/` starts empty each time. The result is the same
+mistake rediscovered from scratch, task after task.
+
+### The ladder
+
+| Occurrences | What happens |
+|---|---|
+| 1 | nothing is recorded — one-off failures are noise, and recording them is how a store rots |
+| 2 | a lesson record: cheap, scoped, revocable |
+| 3+ | it must graduate into a deterministic guard — a hook case, a `run-verify.sh` check, a test, CI — or be retired. `scripts/check-lessons.sh` fails verification until one happens |
+
+A promoted lesson stops being injected. That is the payoff: the constraint has
+moved out of the context window and into the repo, where it holds without
+attention. `--promote` requires `--guard <path>`, and the path must exist — a
+promotion with nowhere to point is indistinguishable from silencing an
+inconvenient lesson.
+
+### What ships
+
+| Path | Role |
+|---|---|
+| `docs/lessons/lessons.jsonl` | the store: committed, append-only, folded by id on read |
+| `docs/lessons/ACTIVE.md` | generated human view; also the `jq`-less recall fallback |
+| `scripts/lessons-fold.jq` | one definition of what `hits` and `status` mean, shared by every reader |
+| `scripts/lessons-append.sh` | the only writer; validates each record with `jq` before writing |
+| `scripts/lessons-recall.sh` | scope, exclusion, ranking, budget — the only place a budget is enforced |
+| `scripts/lessons-gc.sh` | retires stale and over-cap lessons; sweeps orphaned volatile counters |
+| `scripts/check-lessons.sh` | the promotion gate, wired into `run-verify.sh` |
+| `.claude/skills/lesson/` | the `/lesson` skill (plus its `.agents` mirror) |
+| `.claude/rules/ralph/lessons.md` | the rules |
+| `tests/lessons-smoke.sh` | 129 assertions |
+| `.ralph/local/verify.d/20-lesson-memory.sh` | runs the suites as part of verification |
+
+### Using it
+
+```sh
+# record (usually via the /lesson skill, which writes the prose)
+./scripts/lessons-append.sh --rule "..." --cause "..." \
+  --evidence "<commit or report>" --scope-paths "<globs>" --severity high
+
+# a lesson that came from a tool failure: pass the raw error, so the
+# failure hook recognises the next occurrence by itself
+./scripts/lessons-append.sh --rule "..." --signature "<raw error text>"
+
+# see what would be injected
+./scripts/lessons-recall.sh --max 6 --budget 1200
+
+# graduate it, or decide it is not worth a guard
+./scripts/lessons-append.sh --promote <id> --guard .claude/hooks/pre_bash_guard.sh
+./scripts/lessons-append.sh --retire  <id> --reason "..."
+```
+
+### It is inert until something is recorded
+
+With an empty store every hook produces zero output and exits 0, and so does the
+gate. A fresh `ralph init` behaves exactly as upstream's does until the first
+lesson exists. The store ships as `README.md` and nothing else — no other
+repository's history arrives as a wall of stale advice.
+
+### Known asymmetry: Codex
+
+`.codex/hooks.json` routes `SessionStart`, `UserPromptSubmit` and `PreToolUse`,
+so a Codex session recalls lessons exactly as a Claude Code session does. It has
+no `PostToolUseFailure` route, so it never captures them: repeat failures under
+Codex do not climb the ladder on their own. Record them by hand with
+`--signature "<raw error>"`, which the failure hook hashes identically, so a
+later Claude Code session picks the lesson up automatically.
+
+The route was left out rather than guessed at: a `.codex/` config that fails to
+parse fails entirely, and an `[agents]` block added on an unverified schema once
+broke every host-side Codex invocation in two repositories.
+
+### Provenance
+
+Developed and hardened in a scaffolded project across three full review cycles
+before being brought upstream. The suite grew from 22 assertions to 129, and
+every fix in it is mutation-verified — the change is reverted and the suite must
+go red, with sources restored byte-identically.
+
+Defects found during that hardening, all of which fail *silently* and so would
+not have surfaced from review alone:
+
+- a single pasted control character could make the whole store unreadable and
+  turn every verify in the repo red
+- the failure hook and `--signature` derived ids from different inputs, so no
+  hand-recorded lesson was ever findable by the hook
+- the shared cross-worktree counter lost 49 of 50 concurrent increments
+- a retired lesson absorbed every later occurrence of its failure and suppressed
+  the replacement draft
+- indented compiler output — most build output — was dropped entirely
+- the character budget measured an estimate smaller than every format's fixed text
 
 ## Language packs
 
