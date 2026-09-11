@@ -1,43 +1,43 @@
 ## Summary
 
-<!-- このPRが何をするかを1〜3行で。 -->
+<!-- What this PR does, in 1-3 lines. -->
 
 ## Background
 
-<!-- なぜこの変更が必要か。背景や問題を簡潔に。 -->
+<!-- Why this change is needed. The context or problem, briefly. -->
 
 ## Changes
 
-<!-- 主な変更点を領域ごとにまとめる。 -->
+<!-- The main changes, grouped by area. -->
 
 ## In scope
 
-<!-- このPRでカバーする範囲。 -->
+<!-- What this PR covers. -->
 
 ## Out of scope
 
-<!-- 意図的に対象外とした項目。後続タスクに送るもの。 -->
+<!-- Deliberately excluded; deferred to follow-up work. -->
 
 ## Verification
 
-<!-- /self-review と /verify の結果サマリ。レポートへのリンクを含む。 -->
+<!-- Summary of the /self-review and /verify results, with links to the reports. -->
 
 - Self-review: `docs/reports/self-review-<date>-<slug>.md`
 - Verify: `docs/reports/verify-<date>-<slug>.md`
 
 ## Test results
 
-<!-- /test の結果サマリ。レポートへのリンクを含む。 -->
+<!-- Summary of the /test results, with a link to the report. -->
 
 - Test: `docs/reports/test-<date>-<slug>.md`
 
 ## Risks
 
-<!-- 既知のリスク、影響範囲、ロールバック方針。 -->
+<!-- Known risks, blast radius, and the rollback plan. -->
 
 ## Notes for reviewers
 
-<!-- レビューで特に見てほしい箇所、設計上の判断理由など。 -->
+<!-- Anything reviewers should look at closely, and the reasoning behind design decisions. -->
 
 ## Related links
 
@@ -54,5 +54,5 @@ Issue reference rule:
 
 ## Walkthrough
 
-<!-- 大規模差分 (>500行) の場合は docs/reports/walkthrough-<date>-<slug>.md へのリンクを記載 -->
-<!-- 小規模差分の場合はこのセクションを削除 -->
+<!-- For large diffs (>500 lines), link to docs/reports/walkthrough-<date>-<slug>.md -->
+<!-- For small diffs, delete this section. -->

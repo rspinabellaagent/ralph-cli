@@ -20,7 +20,7 @@ var promptFS embed.FS
 // prompt never reads "scope:  の範囲外は..." with nothing after the colon --
 // an instruction referencing an empty scope is worse than an explicit
 // "not specified" (self-review finding M5).
-const defaultScopeText = "未指定(読み取り中心で、リポジトリ規約に従うこと)"
+const defaultScopeText = "unspecified (stay read-oriented and follow the repository conventions)"
 
 // RolePromptVars holds the values substituted into a role prompt template.
 // Substitution is plain strings.ReplaceAll on "{{NAME}}" placeholders (no

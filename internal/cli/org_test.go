@@ -844,7 +844,7 @@ func TestOrgSpawn_RoleAndScopeFlags_ExpandTemplateAndRecordScope(t *testing.T) {
 		t.Fatalf("read herdr log: %v", rerr)
 	}
 	logText := string(data)
-	if !strings.Contains(logText, "役割指示を読み込んで従ってください: ") {
+	if !strings.Contains(logText, "Read the role instructions and follow them: ") {
 		t.Fatalf("expected AgentStart argv logged to contain the prompt-file pointer, got:\n%s", logText)
 	}
 	if strings.Contains(logText, ".claude/rules/ralph/agent-messaging.md") {
@@ -1286,7 +1286,7 @@ func TestOrgStart_HappyPath_SpawnsLeadSeat_SingleAgmsgJoin_NoHello(t *testing.T)
 		"start", "--org-id", "org-a", "--driver", "claude", "--model", "sonnet",
 		"--cwd", t.TempDir(), "--scope", "org-wide",
 		"--state-dir", stateDir,
-		"dry-run 座席を1つ spawn し、typed message を送り、status を確認して disband せよ",
+		"spawn one dry-run seat, send it a typed message, check status, then disband",
 	)
 	if err != nil {
 		t.Fatalf("start failed: %v (output: %s)", err, out)
@@ -1319,7 +1319,7 @@ func TestOrgStart_HappyPath_SpawnsLeadSeat_SingleAgmsgJoin_NoHello(t *testing.T)
 func TestOrgStart_TaskAndEnvelopeLandInPromptFile(t *testing.T) {
 	herdrLog, _ := setupOrgStubPATH(t)
 	stateDir := filepath.Join(t.TempDir(), "state")
-	task := "dry-run 座席を1つ spawn し、typed message を送り、status を確認して disband せよ"
+	task := "spawn one dry-run seat, send it a typed message, check status, then disband"
 
 	out, err := runOrgCmd(t,
 		"start", "--org-id", "org-a", "--driver", "claude", "--model", "sonnet",
@@ -1335,7 +1335,7 @@ func TestOrgStart_TaskAndEnvelopeLandInPromptFile(t *testing.T) {
 	if rerr != nil {
 		t.Fatalf("read herdr log: %v", rerr)
 	}
-	if !strings.Contains(string(data), "役割指示を読み込んで従ってください: ") {
+	if !strings.Contains(string(data), "Read the role instructions and follow them: ") {
 		t.Fatalf("expected AgentStart argv to carry the prompt-file pointer, got:\n%s", string(data))
 	}
 

@@ -42,7 +42,7 @@ func UnifiedDiff(oldText, newText []byte, oldLabel, newLabel string) string {
 	fmt.Fprintf(&b, "+++ %s\n", newLabel)
 
 	for _, block := range blocks {
-		fmt.Fprintf(&b, "@@ 旧 %s  →  新 %s @@\n",
+		fmt.Fprintf(&b, "@@ old %s  ->  new %s @@\n",
 			formatRange(block.oldStart, block.oldCount),
 			formatRange(block.newStart, block.newCount))
 
@@ -80,11 +80,11 @@ func UnifiedDiff(oldText, newText []byte, oldLabel, newLabel string) string {
 }
 
 // formatRange renders a diff block's line range. Empty sides (count == 0)
-// collapse to "(空)" so the user can immediately tell that the file was
+// collapse to "(empty)" so the user can immediately tell that the file was
 // created from nothing or fully deleted on one side.
 func formatRange(start, count int) string {
 	if count == 0 {
-		return "(空)"
+		return "(empty)"
 	}
 	if count == 1 {
 		return fmt.Sprintf("L%d", start+1)

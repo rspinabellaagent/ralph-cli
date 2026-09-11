@@ -2,62 +2,62 @@
 
 ## Summary
 
-<!-- 何を作るのか、何を解決するのかを1〜3行で。 -->
+<!-- What is being built and what it solves, in 1-3 lines. -->
 
 ## Background and problem
 
-<!-- なぜこの仕様が必要か。現状の課題、動機、ユーザーへの影響。 -->
+<!-- Why this spec is needed: the current problem, the motivation, the impact on users. -->
 
 ### Current state
 
-<!-- 現在どうなっているか（現状の挙動、制約、痛み）。 -->
+<!-- How things stand today: current behaviour, constraints, pain. -->
 
 ### Desired state
 
-<!-- この仕様が実現した後どうなっているか（期待される改善、UXの変化）。 -->
+<!-- How things stand once this ships: the expected improvement, the change in UX. -->
 
 ## Requirements
 
 ### Functional requirements
 
-<!-- 実装すべき機能を箇条書きで。各項目は検証可能であること。 -->
+<!-- The functionality to build, as a list. Every item must be verifiable. -->
 
 - [ ]
 
 ### Non-functional requirements
 
-<!-- 性能、セキュリティ、アクセシビリティ、互換性など。 -->
+<!-- Performance, security, accessibility, compatibility, and so on. -->
 
 - [ ]
 
 ## Acceptance criteria
 
-<!-- この仕様が「完了」とみなされる条件。テスト可能な形で記述する。 -->
-<!-- 形式: 「Given ..., when ..., then ...」 -->
+<!-- What makes this spec done. Write it so it can be tested. -->
+<!-- Form: "Given ..., when ..., then ..." -->
 
 - [ ]
 
 ## User stories
 
-<!-- ユーザー視点でのシナリオ。形式: 「As <role>, I want to <action>, so that <outcome>.」 -->
+<!-- Scenarios from the user's point of view. Form: "As <role>, I want to <action>, so that <outcome>." -->
 
 1.
 
 ## Constraints
 
-<!-- 技術的制約、互換性要件、依存制限、明示的に対象外とするもの。 -->
+<!-- Technical constraints, compatibility requirements, dependency limits, and anything explicitly excluded. -->
 
 ### In scope
 
-<!-- この仕様でカバーする範囲。 -->
+<!-- What this spec covers. -->
 
 ### Out of scope
 
-<!-- 明示的に対象外とする項目（将来作業、別Issueへ）。 -->
+<!-- Explicitly out of scope: future work, or work that belongs in another issue. -->
 
 ## Impact
 
-<!-- この変更によって影響を受けるモジュール、ファイル、既存機能、ユーザーフロー。 -->
+<!-- Modules, files, existing behaviour, and user flows this change touches. -->
 
 | Target | Impact | Severity |
 |--------|--------|----------|
@@ -65,23 +65,23 @@
 
 ## Dependencies
 
-<!-- 外部ライブラリ、API、他チームの成果物、前提となる作業など。 -->
+<!-- External libraries, APIs, other teams' work, and any prerequisite work. -->
 
 ## Research findings
 
-<!-- コードベース探索、Web検索、ベストプラクティス調査の結果。 -->
+<!-- Findings from exploring the codebase, searching the web, and reviewing best practice. -->
 
 ### Codebase analysis
 
-<!-- 関連する既存コード、現在のパターン、再利用可能なコンポーネント。 -->
+<!-- Related existing code, the patterns already in use, and anything reusable. -->
 
 ### Best practices
 
-<!-- 調査で見つかったベストプラクティス、参考実装、業界標準のアプローチ。 -->
+<!-- Best practice, reference implementations, and standard approaches found while researching. -->
 
 ### Alternatives considered and trade-offs
 
-<!-- 比較した選択肢と採用理由。 -->
+<!-- The options compared, and why this one was chosen. -->
 
 | Option | Pros | Cons | Adopted |
 |--------|------|------|---------|
@@ -89,13 +89,13 @@
 
 ## Security considerations
 
-<!-- 認証/認可、入力検証、データ保護、OWASP Top 10に関する考慮事項。 -->
-<!-- 該当なしの場合は「None」と明記する。 -->
+<!-- Authentication and authorisation, input validation, data protection, and OWASP Top 10 considerations. -->
+<!-- Write "None" explicitly if none apply. -->
 
 ## Open questions
 
-<!-- 仕様策定中に解決できなかった疑問点。解決したものは削除する。 -->
+<!-- Questions this spec could not resolve. Delete the ones that get answered. -->
 
 ## References
 
-<!-- 参考リンク、ドキュメント、類似実装、関連Issueなど。 -->
+<!-- Reference links, documentation, similar implementations, related issues. -->

@@ -1045,7 +1045,7 @@ func writePromptFile(path, content string) error {
 // the full prompt once it has been written to path: a short instruction
 // telling the agent to read and follow that file instead.
 func promptFilePointer(path string) string {
-	return "役割指示を読み込んで従ってください: " + path
+	return "Read the role instructions and follow them: " + path
 }
 
 // reject records an envelope-validation rejection: a `rejected` manifest

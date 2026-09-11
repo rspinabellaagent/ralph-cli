@@ -23,9 +23,9 @@ func TestColorize_FileHeaders(t *testing.T) {
 }
 
 func TestColorize_RangeHeader(t *testing.T) {
-	in := "@@ 旧 L1  →  新 L1 @@\n"
+	in := "@@ old L1  ->  new L1 @@\n"
 	got := Colorize(in)
-	if !strings.Contains(got, ansiCyan+"@@ 旧 L1  →  新 L1 @@"+ansiReset+"\n") {
+	if !strings.Contains(got, ansiCyan+"@@ old L1  ->  new L1 @@"+ansiReset+"\n") {
 		t.Errorf("range header not wrapped in cyan; got:\n%q", got)
 	}
 }
@@ -69,7 +69,7 @@ func TestColorize_NoNewlineMarker(t *testing.T) {
 // Mixed input must preserve newline structure exactly: every original `\n` is
 // retained, including the final one.
 func TestColorize_PreservesNewlineStructure(t *testing.T) {
-	in := "--- a\n+++ b\n@@ 旧 L1  →  新 L1 @@\n 1    │ -x\n    1 │ +y\n"
+	in := "--- a\n+++ b\n@@ old L1  ->  new L1 @@\n 1    │ -x\n    1 │ +y\n"
 	got := Colorize(in)
 	if strings.Count(got, "\n") != strings.Count(in, "\n") {
 		t.Errorf("newline count drifted: in=%d got=%d\n%q", strings.Count(in, "\n"), strings.Count(got, "\n"), got)
