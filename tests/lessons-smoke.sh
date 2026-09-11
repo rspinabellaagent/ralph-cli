@@ -769,7 +769,14 @@ mkdir -p "$vol_repo/docs/lessons"
   && echo draft > .git/ralph-memory/drafts/deadbeefcafe.md \
   && touch -d '400 days ago' .git/ralph-memory/failures/deadbeefcafe.count .git/ralph-memory/drafts/deadbeefcafe.md )
 ( cd "$vol_repo" && ./scripts/lessons-gc.sh --max-age-days 90 >/dev/null 2>&1 )
-vol_left="$( cd "$vol_repo" && ls .git/ralph-memory/failures .git/ralph-memory/drafts 2>/dev/null | grep -c deadbeefcafe || true )"
+# Counted with a glob rather than `ls | grep`: the sweep deletes by path, so
+# asking the filesystem directly is the accurate question, and it also avoids
+# SC2010. (A comment line must not begin with the word shellcheck -- that is
+# parsed as a directive, not prose.)
+vol_left=0
+for _f in "$vol_repo"/.git/ralph-memory/failures/deadbeefcafe.* "$vol_repo"/.git/ralph-memory/drafts/deadbeefcafe.*; do
+  [ -e "$_f" ] && vol_left=$((vol_left + 1))
+done
 check "lessons-gc sweeps stale volatile counters and drafts" "0" "$vol_left"
 
 # ─── cycle-3 /test survivors ──────────────────────────────────────────────────
