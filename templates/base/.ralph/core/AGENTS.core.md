@@ -41,6 +41,11 @@ created from a clean default branch.
 
 Key rule: never say "done" without saying what was verified and what remains unverified. Tests must pass before PR creation.
 
+- `docs/lessons/` — committed lesson memory (`lessons.jsonl`, append-only): mistakes this
+  repo has already paid for, injected back by the recall hooks, gated by
+  `scripts/check-lessons.sh`. Recorded with `/lesson`; a lesson that recurs three times
+  must graduate into a guard or be retired.
+
 ## Hard rules
 
 - Keep this file short

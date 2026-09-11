@@ -145,11 +145,32 @@ Provide a cross-model second opinion on the current diff before PR creation.
    **Case C — All findings DISMISSED (or no findings)**:
    Note "Cross-review: all findings triaged (no ACTION_REQUIRED) — triage report: docs/reports/cross-review-triage-<slug>.md" and proceed to /pr.
 
-9. **Proceed**:
-   - **Non-cap re-run** (Case A / Case B, `CAP_REACHED = false`): If `active-plan.json` exists, increment `cycle-count.json` (`cycle += 1`), then guide the user back to `/self-review`. The incremented cycle represents "the pass the user is about to enter".
-   - **Cap-reached Option 1** ("Raise the cap temporarily and re-run"): Do **NOT** increment `cycle-count.json`. Instruct the user to `export RALPH_STANDARD_MAX_PIPELINE_CYCLES=<current cycle + 1>` (or higher) before re-running, so the unchanged `cycle` falls below the new cap. Then guide them back to `/self-review`.
-   - If the user chooses `/pr`: invoke /pr (which is responsible for deleting `active-plan.json` and `cycle-count.json` on success).
-   - If the user chooses Abort: stop without invoking /pr; leave state files in place so the next `/work` can resume.
+9. **Preventable?** For each finding, ask whether a prior session could have
+   avoided it with one instruction. Record a lesson only if you can cite a
+   prior occurrence -- a commit, a report, or an existing lesson id -- because
+   `.claude/rules/ralph/lessons.md` counts one occurrence as noise and a store
+   full of first occurrences is the documented way this rots. A first
+   occurrence belongs in this report and nowhere else.
+
+   Use the script, not the `/lesson` skill: this step runs in a subagent seat
+   whose tools are Read/Grep/Glob/Bash/Write/Edit, with no slash-command
+   dispatch.
+
+   ```sh
+   ./scripts/lessons-append.sh --rule "<imperative, stands alone>" \
+     --cause "<why it happened>" --evidence "<commit or report>" \
+     --scope-paths "<globs it applies to>" --severity high
+   ```
+
+   If a lesson has now reached three occurrences, promote it to a guard --
+   `./scripts/lessons-append.sh --promote <id> --guard <path>` -- instead of
+   restating it.
+
+10. **Proceed**:
+    - **Non-cap re-run** (Case A / Case B, `CAP_REACHED = false`): If `active-plan.json` exists, increment `cycle-count.json` (`cycle += 1`), then guide the user back to `/self-review`. The incremented cycle represents "the pass the user is about to enter".
+    - **Cap-reached Option 1** ("Raise the cap temporarily and re-run"): Do **NOT** increment `cycle-count.json`. Instruct the user to `export RALPH_STANDARD_MAX_PIPELINE_CYCLES=<current cycle + 1>` (or higher) before re-running, so the unchanged `cycle` falls below the new cap. Then guide them back to `/self-review`.
+    - If the user chooses `/pr`: invoke /pr (which is responsible for deleting `active-plan.json` and `cycle-count.json` on success).
+    - If the user chooses Abort: stop without invoking /pr; leave state files in place so the next `/work` can resume.
 
 ## CLI execution modes
 

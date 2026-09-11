@@ -204,6 +204,29 @@ scope_file=".harness/state/verify-scope"
     fi
   fi
 
+  # Lesson-memory promotion gate. A lesson that has recurred three or more
+  # times must graduate into a deterministic guard (a hook case, a run-verify
+  # check, a test, CI) or be retired --
+  # `lessons-append.sh --promote <id> --guard <path>` or
+  # `--retire <id>`. Until one happens this fails, which is the ladder working
+  # rather than a workaround. It exits 0 on an empty or missing store, so it is
+  # inert until something is recorded.
+  #
+  # This runs INSIDE the `{ ... } 2>&1 | tee "$evidence_file"` block on purpose.
+  # Outside it, a gate failure exited 1 while the evidence log it had just
+  # written ended with "==> All verifiers passed." and said nothing about the
+  # gate -- an evidence artifact contradicting its own run's exit code, in a
+  # repo whose stated rule is that evidence beats confidence statements.
+  #
+  # Folding into $status rather than exiting also means the needs-verify marker
+  # is not cleared on a gate failure, and check-lessons' exit 2 (setup problem)
+  # stays distinguishable from its exit 1 (un-promoted repeat offender).
+  gate_rc=0
+  ./scripts/check-lessons.sh || gate_rc=$?
+  if [ "$gate_rc" -ne 0 ] && [ "$status" -eq 0 ]; then
+    status="$gate_rc"
+  fi
+
   if [ "$ran_any" -eq 0 ]; then
     if [ "$docs_only" -eq 1 ]; then
       echo "No language verifier ran. This appears to be docs or scaffold-level work only."

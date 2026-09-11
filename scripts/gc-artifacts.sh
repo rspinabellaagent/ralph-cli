@@ -178,6 +178,31 @@ if [ -d "docs/evidence" ]; then
   done < <(find docs/evidence -maxdepth 1 -name "verify-*.log" -type f | sort -r)
 fi
 
+# ─── Target 3: docs/lessons/lessons.jsonl ─────────────────────────────────────
+#
+# Forgetting, alongside the other retention targets. Retires active lessons
+# below the hit floor and older than the age limit, plus anything past the cap;
+# retirement is itself an append, so history survives and --include-promoted
+# still shows it. Regenerates docs/lessons/ACTIVE.md, which doubles as the
+# jq-less recall fallback.
+#
+# This runs BEFORE the reports/evidence output section on purpose: that section
+# exits 0 early when targets 1 and 2 have no candidates, which is the common
+# case, and anything placed after it would almost never run.
+#
+# --dry-run is propagated from this script's own mode. gc-artifacts defaults to
+# dry-run, and a dry run must not mutate the store it is reporting on.
+# The `|| log` matters under `set -euo pipefail`: without it a non-zero
+# lessons-gc (a corrupt store makes every jq reader exit 5) aborts this script
+# before targets 1 and 2 have run at all, so an unrelated lesson-store problem
+# would silently stop reports and evidence from ever being collected. Lesson
+# memory is an add-on here; it does not get to veto the pre-existing job.
+if [ "$APPLY" -eq 1 ]; then
+  ./scripts/lessons-gc.sh || log "lessons-gc failed (rc=$?); continuing with targets 1 and 2"
+else
+  ./scripts/lessons-gc.sh --dry-run || log "lessons-gc failed (rc=$?); continuing with targets 1 and 2"
+fi
+
 # ─── Output / execution ───────────────────────────────────────────────────────
 
 # Bash 3.2: empty array[@] triggers unbound variable under -u; use set +u guard

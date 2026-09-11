@@ -31,7 +31,27 @@ Evaluate the diff for:
 3. Record findings in a report using [template.md](template.md).
 4. Separate blocking issues from follow-up suggestions.
 5. If any finding represents deferred work, known shortcuts, or accumulated complexity, append it to `docs/tech-debt/README.md` or create a dedicated file in `docs/tech-debt/`.
-6. If there are no findings, say what was checked and what evidence supports that conclusion.
+6. **Preventable?** For each finding, ask whether a prior session could have
+   avoided it with one instruction. Record a lesson only if you can cite a
+   prior occurrence -- a commit, a report, or an existing lesson id -- because
+   `.claude/rules/ralph/lessons.md` counts one occurrence as noise and a store
+   full of first occurrences is the documented way this rots. A first
+   occurrence belongs in this report and nowhere else.
+
+   Use the script, not the `/lesson` skill: this step runs in a subagent seat
+   whose tools are Read/Grep/Glob/Bash/Write/Edit, with no slash-command
+   dispatch.
+
+   ```sh
+   ./scripts/lessons-append.sh --rule "<imperative, stands alone>" \
+     --cause "<why it happened>" --evidence "<commit or report>" \
+     --scope-paths "<globs it applies to>" --severity high
+   ```
+
+   If a lesson has now reached three occurrences, promote it to a guard --
+   `./scripts/lessons-append.sh --promote <id> --guard <path>` -- instead of
+   restating it.
+7. If there are no findings, say what was checked and what evidence supports that conclusion.
 
 ## Output
 
