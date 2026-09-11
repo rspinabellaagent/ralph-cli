@@ -23,7 +23,7 @@ Scaffold, upgrade, and run opinionated agent harnesses that work with both Claud
 >
 > Upstream restricts pull requests to collaborators, so the change could not be offered there directly. The branch is `feat/lesson-memory`; it applies cleanly to upstream `main` if that ever changes.
 >
-> **Install from this fork** — see [Install](#install). There are no published releases here, so it builds from source.
+> **Install from this fork** — see [Install](#install); one `curl`, same as upstream.
 
 ## Why ralph?
 
@@ -47,7 +47,24 @@ Claude Code gives you a powerful agent, but the default setup is a blank slate. 
 
 ### This fork (includes lesson memory)
 
-No releases are published here, so build from source. Requires Go 1.25+.
+```sh
+curl -fsSL https://raw.githubusercontent.com/rspinabellaagent/ralph-cli/main/scripts/install.sh | sh
+```
+
+Downloads a prebuilt binary from this fork's releases and verifies its SHA256
+against the published `checksums.txt`. `REPO` is overridable, so the same script
+installs upstream if you want to compare:
+
+```sh
+REPO=yoshpy-dev/ralph curl -fsSL https://raw.githubusercontent.com/rspinabellaagent/ralph-cli/main/scripts/install.sh | sh
+```
+
+There is no Homebrew tap for this fork — upstream's tap publishes upstream's
+binary, which does not carry lesson memory.
+
+#### Or build from source
+
+Requires Go 1.25+.
 
 ```sh
 git clone https://github.com/rspinabellaagent/ralph-cli
@@ -63,15 +80,10 @@ ralph doctor
 ```
 
 A `go build` does not stamp version metadata; the release workflow does that via
-ldflags. `ralph version` therefore reports `dev (unknown unknown)` on a
-source build. Everything else is unaffected — `ralph init` and `ralph upgrade`
-read the scaffold version from the templates, not from the binary stamp.
-
-If you would rather not install Go on each machine, the alternative is to publish
-releases from this fork: point `REPO=` in `scripts/install.sh` at
-`rspinabellaagent/ralph-cli`, enable Actions, and push a `v*` tag so
-`release.yml` builds the binaries. That is the point at which you are properly
-maintaining a fork, so it is deliberately not done here.
+ldflags. `ralph version` therefore reports `dev (unknown unknown)` on a source
+build, while an installed release reports its real version. Everything else is
+unaffected — `ralph init` and `ralph upgrade` read the scaffold version from the
+templates, not from the binary stamp.
 
 ### Upstream (no lesson memory)
 

@@ -4,10 +4,12 @@ set -eu
 # install.sh — Install ralph CLI binary from GitHub Releases.
 #
 # Usage:
-#   curl -fsSL https://raw.githubusercontent.com/yoshpy-dev/ralph/main/scripts/install.sh | sh
+#   curl -fsSL https://raw.githubusercontent.com/rspinabellaagent/ralph-cli/main/scripts/install.sh | sh
 #   curl -fsSL ... | sh -s -- --version 0.1.0
 
-REPO="yoshpy-dev/ralph"
+# Overridable so the same script can install from upstream or any other fork:
+#   REPO=yoshpy-dev/ralph curl -fsSL ... | sh
+REPO="${REPO:-rspinabellaagent/ralph-cli}"
 BINARY="ralph"
 INSTALL_DIR="${INSTALL_DIR:-/usr/local/bin}"
 

@@ -99,7 +99,6 @@ lessons_file_path="$(lessons_file)"
 # keeps a transient store problem from making the hook forget every lesson and
 # draft duplicates. Be clear about the cost: on that path a retired lesson does
 # still take a hit, which is an unattended write into the committed store.
-folded="[]"
 lesson_status=""
 if [ -f "$lessons_file_path" ] && grep -q "\"id\":\"$fp\"" "$lessons_file_path" 2>/dev/null; then
   lesson_status="active"

@@ -38,15 +38,8 @@ changelog:
       - "^test:"
       - "^chore:"
 
-brews:
-  - repository:
-      owner: yoshpy-dev
-      name: homebrew-tap
-      token: "{{ .Env.HOMEBREW_TAP_GITHUB_TOKEN }}"
-    homepage: "https://github.com/yoshpy-dev/ralph"
-    description: "ralph — a CLI for harness engineering with Claude Code"
-    license: MIT
-    install: |
-      bin.install "ralph"
-    test: |
-      system "#{bin}/ralph", "version"
+# Homebrew publishing is upstream's. This fork has no tap and no
+# HOMEBREW_TAP_GITHUB_TOKEN, and goreleaser fails the whole release if the
+# brews step cannot authenticate -- so the block is removed rather than left to
+# break every tag. Releases here are plain binaries plus checksums, which is
+# what scripts/install.sh consumes.

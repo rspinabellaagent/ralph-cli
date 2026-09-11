@@ -221,8 +221,16 @@ scope_file=".harness/state/verify-scope"
   # Folding into $status rather than exiting also means the needs-verify marker
   # is not cleared on a gate failure, and check-lessons' exit 2 (setup problem)
   # stays distinguishable from its exit 1 (un-promoted repeat offender).
+  #
+  # Guarded on existence: run-verify.sh is owner=core and upgrades on its own,
+  # while check-lessons.sh arrives with the lesson-memory layer. A project that
+  # picks up this file without the layer -- or any harness whose fixture copies
+  # only some scripts -- would otherwise die here with 127, command not found,
+  # and the failure would point at verification rather than at a missing file.
   gate_rc=0
-  ./scripts/check-lessons.sh || gate_rc=$?
+  if [ -x ./scripts/check-lessons.sh ]; then
+    ./scripts/check-lessons.sh || gate_rc=$?
+  fi
   if [ "$gate_rc" -ne 0 ] && [ "$status" -eq 0 ]; then
     status="$gate_rc"
   fi
