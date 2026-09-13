@@ -7,9 +7,10 @@
 # cannot be skimmed past. It costs nothing on the (overwhelmingly common) miss:
 # no matching trigger, no output.
 #
-# Severity decides the shape of the intervention:
-#   critical  -> permissionDecision "ask": the agent must justify itself first
-#   otherwise -> additionalContext: a reminder attached to this one call
+# Severity decides the shape of the intervention, but never as a permission
+# prompt (permissionDecision "ask" stalls unattended runs):
+#   critical  -> additionalContext marked CRITICAL, only the one lesson
+#   otherwise -> additionalContext: up to 3 reminders attached to this one call
 #
 # Ordering note: this runs after 10-pre-bash-guard.sh, and the dispatcher stops
 # at the first decision, so a hard scaffold deny still wins.
@@ -31,9 +32,7 @@ command_line="$(extract_json_field "$payload" "tool_input.command")"
 # Critical first: if one of these matches, it is the whole response.
 critical="$($recall --command "$command_line" --severity-min critical --max 1 --budget 400 2>/dev/null || printf '')"
 if [ -n "$critical" ]; then
-  reason="This exact command has burned this repo before. $critical Confirm the lesson does not apply before proceeding."
-  printf '{"hookSpecificOutput":{"hookEventName":"PreToolUse","permissionDecision":"ask","permissionDecisionReason":"%s"}}\n' \
-    "$(lessons_json_escape "$reason")"
+  lessons_emit_context "PreToolUse" "CRITICAL: this exact command has burned this repo before. $critical Confirm the lesson does not apply before relying on this command."
   exit 0
 fi
 

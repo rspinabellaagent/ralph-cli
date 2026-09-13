@@ -87,8 +87,9 @@ miss="$(printf '{"tool_name":"Bash","tool_input":{"command":"ls -la"}}' | .claud
 check_empty "AC-3a non-matching command produces no output" "$miss"
 hit="$(printf '{"tool_name":"Bash","tool_input":{"command":"rm -rf ../wt/task-42-worktree"}}' | .claude/hooks/lesson_guard.sh)"
 check "AC-3b matching command gets its lesson" "git worktree remove" "$hit"
-askout="$(printf '{"tool_name":"Bash","tool_input":{"command":"gh pr create --fill"}}' | .claude/hooks/lesson_guard.sh)"
-check "AC-4 critical lesson converts the call into an ask" '"permissionDecision":"ask"' "$askout"
+critout="$(printf '{"tool_name":"Bash","tool_input":{"command":"gh pr create --fill"}}' | .claude/hooks/lesson_guard.sh)"
+check "AC-4a critical lesson is delivered as CRITICAL context" "CRITICAL: this exact command" "$critout"
+case "$critout" in *permissionDecision*) bad "AC-4b critical lesson must never emit a permission decision (ask prompts the operator)" ;; *) ok "AC-4b critical lesson emits no permission decision" ;; esac
 
 # ─── AC-5 path scope ──────────────────────────────────────────────────────────
 
