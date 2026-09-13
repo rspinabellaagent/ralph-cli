@@ -19,7 +19,7 @@ You do not read the store. It is pushed at you, scoped:
 |---|---|
 | session start | up to 6 lessons, ranked, budgeted, scoped to the files this branch touches |
 | prompt submit | only lessons scoped to currently-modified files, only recurring ones, once per session each |
-| before a Bash call | only lessons whose `trigger_command` glob matches that command; `critical` ones convert the call into an `ask` |
+| before a Bash call | only lessons whose `trigger_command` glob matches that command; `critical` ones arrive alone, marked CRITICAL (context only, never a permission prompt) |
 | after a tool failure | the fingerprint of that failure, its cross-session occurrence count, and the matching lesson if one exists |
 
 Silence is the normal output of all four. If a lesson did surface, it survived

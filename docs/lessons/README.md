@@ -48,7 +48,7 @@ produce a git conflict whose resolution is "keep both lines".
 | `trigger_command` | string | no | Shell glob matched against a pending Bash command at `PreToolUse`, anchored against the whole command line -- write `*rm -rf*` to match anywhere, since a bare `rm -rf` matches only that exact command. Metacharacters (`|`, `{}`, `()`, `[]`) are literal. |
 | `scope_paths` | array | no | Path globs (`**` crosses `/`, `*` does not), matched anchored at both ends against repo-relative paths -- `pkg/**` does not match `vendor/pkg/x.go`. Empty means repo-global. |
 | `phase` | string | no | `plan`\|`implement`\|`self_review`\|`verify`\|`test`\|`sync_docs`\|`pr`. |
-| `severity` | string | on `upsert` | `low`\|`medium`\|`high`\|`critical`. `critical` converts a matching Bash call into an `ask`. Emitted on `hit`/`promote`/`retire` only when explicitly passed, so a follow-up record cannot silently demote a lesson. |
+| `severity` | string | on `upsert` | `low`\|`medium`\|`high`\|`critical`. `critical` attaches that one lesson, marked CRITICAL, to a matching Bash call as context (never a permission prompt). Emitted on `hit`/`promote`/`retire` only when explicitly passed, so a follow-up record cannot silently demote a lesson. |
 | `slug` | string | no | Task slug it came from. |
 | `evidence` | string | no | Report, log, or commit backing it. |
 | `promoted_to` | string | on `promote` | Path of the guard that now enforces it. Required and enforced: `lessons-append.sh --promote` refuses without `--guard`. |
