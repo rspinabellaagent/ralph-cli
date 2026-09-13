@@ -84,7 +84,7 @@ func TestCheckScaffoldIntegrity_ConvergedUpgrade_AllPass(t *testing.T) {
 // TestCheckScaffoldIntegrity_EjectedFork_CoreHashesPass is AC-9 handoff test
 // 3: ejecting a modified core path records it as owner=fork, and FR-9(a)
 // must not flag it — plan.Drift never contains fork paths (they are
-// classified into plan.Advisories instead), matching the spec's "fork 除く"
+// classified into plan.Advisories instead), matching the spec's "excluding fork"
 // carve-out. Every other check also stays green: the fork's content is
 // still present on disk (satisfies (e)), is not a v2 exception face
 // (irrelevant to (b)/(c)), and contains no conflict markers (satisfies (d)).

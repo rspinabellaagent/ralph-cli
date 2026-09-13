@@ -907,7 +907,7 @@ func TestRunUpgradeV2_UntrackedCoreDrift_GuidanceDistinguishesUntracked(t *testi
 
 // TestRunUpgradeV2_UntrackedSeedPathCollision_AdoptedNotDrift reproduces and
 // pins the fix for the Phase 3 Known gap (docs/tech-debt/README.md,
-// "PlanCoreReplaceDesired の untracked パス分類...owner 非考慮"): a new
+// "PlanCoreReplaceDesired's untracked-path classification...ignores owner"): a new
 // release introduces a seed-owned path (docs/newnote.md) the manifest has
 // never tracked, and the target already has a local, untracked file at that
 // exact path with content that diverges from the new template. Before the
@@ -995,7 +995,7 @@ func TestRunUpgradeV2_UntrackedSeedPathCollision_AdoptedNotDrift(t *testing.T) {
 // TestRunUpgradeV2_CodexAgentsOverride_UserEdited_SeedNeverReplaced pins the
 // cycle-3 cross-review fix (AR#1,
 // docs/reports/cross-review-triage-overlay-scaffold-v2-p3.md):
-// .codex/AGENTS.override.md is spec-L3 (create-once, then user-owned/不可侵).
+// .codex/AGENTS.override.md is spec-L3 (create-once, then user-owned/inviolable).
 // Before the fix, ownerForScaffoldPath's catch-all classified it core, so a
 // user-edited copy would have been flagged as unresolved drift (exit 3)
 // forever on any upstream template change. After the fix it behaves like any
@@ -1351,7 +1351,7 @@ func TestRunUpgradeIOWithOptions_LegacyManifest_NonGitDir_FailsClosedZeroWrites(
 // project that predates Phase 3's baseline-mechanism removal (docs/plans
 // /active/2026-08-18-overlay-scaffold-v2-p3.md). The directory is simulated
 // directly (rather than produced by a real legacy write path, since that
-// path no longer exists in this codebase) — see the `## 後始末` step of the
+// path no longer exists in this codebase) — see the `## Cleanup` step of the
 // plan's Scope section.
 func TestRunUpgradeV2_RemovesLegacyBaselineDirectory(t *testing.T) {
 	target := initV2Project(t, gen1(), "1.0.0-test")

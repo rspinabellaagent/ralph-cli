@@ -8,7 +8,7 @@ import (
 )
 
 // defaultReportDir is the default output directory for `ralph org report`
-// (AC-4, FR-9 後半 -- see docs/plans/active/2026-08-02-org-runtime-lead.md).
+// (AC-4, FR-9 second half -- see docs/plans/active/2026-08-02-org-runtime-lead.md).
 const defaultReportDir = "docs/reports"
 
 // ReportParams describes one `ralph org report` invocation.
@@ -111,8 +111,8 @@ func permissionModeFromDetails(details string) string {
 // markdown document from already-org-filtered manifest events and receipts
 // (see (*Org).Report, the only production caller). It is a pure function of
 // its inputs -- no I/O, no Clock -- so it is directly and deterministically
-// unit-testable against fixture events/receipts (AC-4's "スタブデータの
-// ユニットテスト").
+// unit-testable against fixture events/receipts (AC-4's "unit tests against
+// stub data").
 //
 // Sections, in order: a roster summary (one row per seat, including dry-run
 // seats, from Roster), the full event timeline (every event in file/append
@@ -120,7 +120,7 @@ func permissionModeFromDetails(details string) string {
 // residuals" summary (active real-seat count, corrupt manifest line count).
 // An org with zero events still produces a complete report with an explicit
 // "no events recorded" note in place of the roster/timeline tables (edge
-// case: "report 対象 org が空", plan Test plan).
+// case: "the org being reported on is empty", plan Test plan).
 func BuildOrgReport(events []ManifestEvent, receipts []Receipt, orgID, date string, corruptLines int) string {
 	var b strings.Builder
 

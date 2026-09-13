@@ -265,11 +265,11 @@ func executeInit(targetDir string, cfg initConfig, force bool) error {
 // ownerForScaffoldPath returns the manifest v3 ownership attribute for a
 // scaffolded file, keyed by its manifest-relative path (the same path used
 // as the key of the hashes map built during rendering). See docs/specs
-// 2026-08-17-overlay-scaffold-v2.md, section "層モデル".
+// 2026-08-17-overlay-scaffold-v2.md, section "Layer model".
 //
 // .ralph/local/** is classified as seed, not core, even though the
 // catch-all below would otherwise mark it core: per the spec's layer model
-// it is the L3 overlay, a user drop-in area that is 不可侵 (create-once,
+// it is the L3 overlay, a user drop-in area that is inviolable (create-once,
 // then advisory-only) once it exists. Filing it under core would let the
 // Phase 3 replace planner treat it as a full-replace target and overwrite
 // user content living there.

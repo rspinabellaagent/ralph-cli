@@ -13,7 +13,7 @@ import (
 	"github.com/yoshpy-dev/ralph/internal/config"
 )
 
-// Package note (watcher layer, PR④ Slice 4): RunWatcher implements the
+// Package note (watcher layer, PR 4 Slice 4): RunWatcher implements the
 // on-demand semantic-judgment half of the two-layer watchdog design (see
 // plan docs/plans/active/2026-08-02-org-runtime-watchdog.md, AC-6). It is
 // only ever reached through WatchHooks.OnSemanticTrigger's seam (watch.go)

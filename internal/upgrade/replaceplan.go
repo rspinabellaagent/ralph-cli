@@ -198,7 +198,7 @@ func PlanCoreReplace(m *scaffold.Manifest, targetDir string, templateFS fs.FS) (
 //
 // Classification is driven by each path's manifest ownership attribute
 // (core/fork/seed/block) plus the legacy case (no ownership recorded). See
-// docs/specs/2026-08-17-overlay-scaffold-v2.md, section "層モデル", and the
+// docs/specs/2026-08-17-overlay-scaffold-v2.md, section "Layer model", and the
 // Phase 1 plan's slice-4 handoff for the exact per-owner rules.
 func PlanCoreReplaceDesired(m *scaffold.Manifest, targetDir string, desired map[string][]byte, opts ReplaceOptions) (ReplacePlan, error) {
 	if m == nil {
@@ -426,7 +426,7 @@ func classifySeed(
 // pre-existing disk file whose content diverges from the template is
 // adopted as seed content instead of being classified as drift: no op is
 // planned (the file is left untouched, matching seed's create-once/
-// 不可侵 contract), and the divergence is surfaced as a seed AdvisoryEntry
+// inviolable contract), and the divergence is surfaced as a seed AdvisoryEntry
 // instead of a DriftEntry. This closes the "new seed path collides with an
 // untracked local file" gap — see docs/tech-debt/README.md. The caller
 // (rebuildManifestV2 in internal/cli/upgrade_v2.go) picks this path up

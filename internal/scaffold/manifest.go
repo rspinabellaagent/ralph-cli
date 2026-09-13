@@ -67,7 +67,7 @@ const (
 	LayoutV2 = "v2"
 
 	// Ownership attributes for manifest v3 entries. See docs/specs
-	// 2026-08-17-overlay-scaffold-v2.md, section "層モデル".
+	// 2026-08-17-overlay-scaffold-v2.md, section "Layer model".
 	OwnerCore  = "core"
 	OwnerFork  = "fork"
 	OwnerSeed  = "seed"

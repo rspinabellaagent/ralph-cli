@@ -1817,7 +1817,7 @@ func TestWatch_SeatBudgetCutoff_SkipsFurtherProbesForCutSeatSameCycle(t *testing
 	}
 }
 
-// --- PR④ known gap #5: deadman probe-recovery false-clear -------------------
+// --- PR 4 known gap #5: deadman probe-recovery false-clear -------------------
 
 // TestWatch_Deadman_ProbeOutageRecoveryAlone_DoesNotClearPendingAlert pins the
 // checkDeadman fix for cross-review-triage cycle-3 #5: an ALERT recorded
@@ -1939,7 +1939,7 @@ func TestWatch_Deadman_ProbeOutageThenGenuineManifestActivity_ClearsPendingAlert
 	assertNoEscalations(t, escalationsPath)
 }
 
-// --- PR④ known gap #6: WatchdogJoined only set on successful Join -----------
+// --- PR 4 known gap #6: WatchdogJoined only set on successful Join -----------
 
 // TestWatch_EnsureWatchdogJoined_TransientFailure_RetriesUntilSuccess pins
 // the ensureWatchdogJoined fix for cross-review-triage cycle-3 #6: a

@@ -121,7 +121,7 @@ func (o *Org) Send(p SendParams) SendResult {
 	// Wait for "idle" OR "done": live-probed herdr (v0.7.5) reports an
 	// interactive agent resting at its input prompt as "done" (turn
 	// finished), not "idle" -- waiting on "idle" alone times out against a
-	// perfectly receptive seat (found by the PR③ live smoke).
+	// perfectly receptive seat (found by the PR 3 live smoke).
 	if _, err := o.Herdr.AgentWait(ctx, resolvedHerdrAgentName(seat), []string{"idle", "done"}, timeoutMS); err != nil {
 		return SendResult{Err: fmt.Errorf("org: send: wait for seat %q idle/done: %w", p.To, err)}
 	}

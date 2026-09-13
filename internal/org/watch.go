@@ -18,7 +18,7 @@ import (
 	"github.com/yoshpy-dev/ralph/internal/org/protocol"
 )
 
-// Package note (pulse layer, PR④ Slice 3): RunWatch implements
+// Package note (pulse layer, PR 4 Slice 3): RunWatch implements
 // `ralph org watch`'s deterministic pulse layer (see plan
 // docs/plans/active/2026-08-02-org-runtime-watchdog.md, AC-3/3b/3c/4/5). It
 // evaluates one cycle at a time (evaluateCycle below), never invokes an LLM
@@ -878,7 +878,7 @@ func (o *Org) SendWatchdogAlert(ctx context.Context, orgID, message string) erro
 // best-effort Join semantics in spawn.go, but for the watchdog identity
 // instead of lead.
 //
-// WatchdogJoined is set only after Join actually succeeds (PR④ known gap
+// WatchdogJoined is set only after Join actually succeeds (PR 4 known gap
 // #6, docs/reports/cross-review-triage-org-runtime-watchdog.md Cycle 3 #6):
 // setting it unconditionally would persist a false "already joined" record
 // across a transient Join failure (e.g. agmsg momentarily unreachable),
@@ -1119,7 +1119,7 @@ func filterLeadHistoryLines(raw string) string {
 // (baseline collapses to the sentinel) would false-clear the moment the
 // probe merely recovers on a later cycle: cur != "" is trivially true
 // against a "" baseline even though nothing about lead's behavior actually
-// changed, only the probe's own availability did (PR④ known gap #5,
+// changed, only the probe's own availability did (PR 4 known gap #5,
 // docs/reports/cross-review-triage-org-runtime-watchdog.md Cycle 3 #5). A
 // pending alert whose probe baseline was unavailable can still clear via
 // the other, unaffected sources (manifest events, or a probe/history source

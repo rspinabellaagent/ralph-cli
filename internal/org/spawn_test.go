@@ -1466,8 +1466,8 @@ func TestOrgSpawn_AgentStart_AlwaysBusy_BoundedByCtxDeadline(t *testing.T) {
 // --- AC-6: announce (HELLO Send) failure Leave compensation -----------------
 
 func TestOrgSpawn_FailureInjection_AgmsgSend_LeavesJoinedSeat(t *testing.T) {
-	// tech-debt fix (docs/tech-debt/README.md, "spawn の agmsg_announce
-	// (HELLO send)失敗パスの補償..."): by the time HELLO Send fails, the
+	// tech-debt fix (docs/tech-debt/README.md, "compensation on spawn's agmsg_announce
+	// (HELLO send) failure path..."): by the time HELLO Send fails, the
 	// seat's own Join already succeeded, so the failure path must
 	// best-effort Leave the seat back out of the roster and record the
 	// outcome in Details.

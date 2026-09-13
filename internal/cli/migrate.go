@@ -19,7 +19,7 @@ import (
 	"github.com/yoshpy-dev/ralph/internal/upgrade"
 )
 
-// This file resolves the plan's Open question ("移行分類器の配置" —
+// This file resolves the plan's Open question ("where the migration classifier lives" —
 // docs/plans/active/2026-08-18-overlay-scaffold-v2-p4.md) in favor of
 // internal/cli: the classifier needs both internal/cli's ownerForScaffoldPath
 // (to assign the v3 ownership attribute a migrated path should carry) and
@@ -284,7 +284,7 @@ type MigrationPlan struct {
 	Collisions []MigrationCollision
 	// Packs carries over the legacy manifest's installed pack list
 	// (meta.packs), sorted, so slice 3 can continue writing it into the
-	// v3 manifest (AC-11's "Meta.Packs が v3 manifest に継承される").
+	// v3 manifest (AC-11's "Meta.Packs carries over into the v3 manifest").
 	Packs []string
 }
 
@@ -996,7 +996,7 @@ func runMigrateLegacy(absDir, manifestPath string, oldManifest *scaffold.Manifes
 	return nil
 }
 
-// checkGitCleanForMigration enforces the plan's "非 git ターゲットは移行拒否"
+// checkGitCleanForMigration enforces the plan's "refuse to migrate a non-git target"
 // design decision: git is the migration's only rollback mechanism (no
 // backup directory is made), so absDir must be a git work tree with no
 // uncommitted changes before any migration write happens. Thin wrapper over

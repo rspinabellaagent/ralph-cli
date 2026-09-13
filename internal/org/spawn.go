@@ -167,7 +167,7 @@ type SpawnParams struct {
 	// Scope is a free-text description of what this seat is allowed to
 	// touch (e.g. a glob or a short prose description). It is not enforced
 	// deterministically in this PR (see plan Non-goals -- that lands with
-	// the PR④ Watchdog pulse layer); here it is (1) substituted into the
+	// the PR 4 Watchdog pulse layer); here it is (1) substituted into the
 	// seat's role prompt template as {{SCOPE}} and (2) recorded on the
 	// `spawned` manifest event's Details as "scope=<value>" so it is at
 	// least auditable after the fact.
@@ -289,7 +289,7 @@ func (o *Org) Spawn(p SpawnParams) SpawnResult {
 	// spawned event's Details, dryRunSpawn) sees the same value. Computing it
 	// does not itself decide anything -- the AC-2b gate check that used to
 	// sit right here has moved: see autonomousScopeGateErr's doc comment for
-	// why (PR① precedent: an idempotent early return must precede any
+	// why (PR 1 precedent: an idempotent early return must precede any
 	// validation a no-op retry doesn't need).
 	resolvedPermMode := ResolvePermissionMode(o.Config, p.Role)
 
@@ -471,7 +471,7 @@ func (o *Org) Spawn(p SpawnParams) SpawnResult {
 		// closure, so a bare retry of `spawn` for an already-spawned seat
 		// (no new autonomous seat being created at all) was rejected by this
 		// gate before it ever reached the idempotent return above -- the
-		// exact same idempotent-vs-validation ordering bug PR① fixed for
+		// exact same idempotent-vs-validation ordering bug PR 1 fixed for
 		// envelope validation (see this func's own doc comment, item 1).
 		// A no-op respawn of an existing active seat needs no --scope, so
 		// the gate must never be reachable before the idempotent return has
@@ -598,7 +598,7 @@ func (o *Org) Spawn(p SpawnParams) SpawnResult {
 		return SpawnResult{Outcome: SpawnOutcomeFailed, Err: err}
 	}
 
-	// team is computed here (rather than after AgentStart, as PR① had it)
+	// team is computed here (rather than after AgentStart, as PR 1 had it)
 	// because RenderRolePrompt needs it for the {{TEAM}} substitution below
 	// -- agmsgTeam is a pure function of OrgID, so moving it earlier has no
 	// observable effect on the agmsg steps further down.
@@ -720,8 +720,8 @@ func (o *Org) Spawn(p SpawnParams) SpawnResult {
 		// require TASK_ID, so a TYPE header plus these fields alone is valid.
 		msg := fmt.Sprintf("TYPE: HELLO\nSEAT: %s\nROLE: %s\nORG_ID: %s", p.SeatID, p.Role, p.OrgID)
 		if err := o.Agmsg.Send(ctx, team, p.SeatID, LeadIdentity, msg); err != nil {
-			// tech-debt (docs/tech-debt/README.md, "spawn の agmsg_announce(HELLO
-			// send)失敗パスの補償..."): the seat's own Join already succeeded by
+			// tech-debt (docs/tech-debt/README.md, "compensation on spawn's agmsg_announce (HELLO
+			// send) failure path..."): the seat's own Join already succeeded by
 			// this point, so a failed HELLO announce must not leave a stale
 			// roster entry behind -- best-effort Leave it back out, and record
 			// the outcome in spawn_failed's Details alongside the lead-join note
@@ -884,7 +884,7 @@ func (o *Org) ensureLeadJoined(ctx context.Context, p SpawnParams, team, paneID 
 
 // agmsgTeam is the team name convention used to announce a newly spawned
 // seat to the org's lead (see plan Open questions -- provisional pending
-// PR②'s seat prompt design).
+// PR 2's seat prompt design).
 func agmsgTeam(orgID string) string {
 	return fmt.Sprintf("ralph-%s", orgID)
 }
@@ -1256,8 +1256,8 @@ func (o *Org) failStepWithNote(p SpawnParams, step string, cause error, paneID, 
 }
 
 // compensateLeave sends a best-effort agmsg Leave for agentID from team,
-// used by the agmsg_announce failure path (AC-6/tech-debt: "spawn の
-// agmsg_announce(HELLO send)失敗パスの補償が...Leave しない"): by the time
+// used by the agmsg_announce failure path (AC-6/tech-debt: "spawn's
+// agmsg_announce (HELLO send) failure-path compensation...does not Leave"): by the time
 // HELLO Send fails, the seat's own Join has already succeeded, so without
 // this call a failed spawn leaves a stale roster entry behind. Errors are
 // recorded in the returned string, not propagated -- like compensatePane,

@@ -941,7 +941,7 @@ func checkScaffoldIntegrity(targetDir string, strict bool) []checkResult {
 // current template hash with no fork record to explain the divergence; a
 // forked path is classified into plan.Advisories instead (see
 // driftPathSet's doc comment, adopt.go), so fork content is never flagged
-// here — matching FR-9(a)'s "fork 除く". plan.Drift also carries untracked
+// here — matching FR-9(a)'s "excluding fork". plan.Drift also carries untracked
 // collisions (no manifest entry), annotated separately below.
 //
 // A pending-but-expected update (unmodified core file, template changed
@@ -1053,7 +1053,7 @@ func checkManagedBlocks(absDir string, desired map[string][]byte, strict bool) c
 // template. mergeResult.Changed==true means the merge would rewrite
 // settings.json — an owned key is missing, stale (ralph-owned in oldOwned
 // but dropped from newOwned, so it should have been pruned), or otherwise
-// out of sync — which is exactly FR-9(c)'s "所有キーの健在" violated. A
+// out of sync — which is exactly FR-9(c)'s "owned keys remain intact" violated. A
 // key present with extra user-added entries is never flagged: those are
 // preserved untouched by the merge (Changed stays false for them).
 //

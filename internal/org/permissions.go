@@ -57,8 +57,8 @@ func ResolvePermissionMode(cfg config.OrgConfig, role string) string {
 // claude's bypassPermissions), edits keeps the default approval policy but
 // still grants workspace-write so file edits do not need per-tool-call
 // confirmation. These flag shapes are the plan's own stated assumption
-// (docs/plans/active/2026-08-02-org-runtime-watchdog.md, "codex 権限
-// fail-closed の実機検証") -- Slice 5's live smoke is what actually confirms
+// (docs/plans/active/2026-08-02-org-runtime-watchdog.md, "live verification that codex
+// permissions fail closed") -- Slice 5's live smoke is what actually confirms
 // them against a real codex seat; CodexVerified is the operator's explicit
 // acknowledgement that they have done that confirmation for their installed
 // codex version.
@@ -76,13 +76,13 @@ var (
 //
 // claude accepts --permission-mode directly: autonomous maps to
 // bypassPermissions (no interactive permission dialog at all -- this is the
-// mode that resolves PR②'s observed "seat blocked on a permission dialog"
+// mode that resolves PR 2's observed "seat blocked on a permission dialog"
 // problem), edits maps to acceptEdits (auto-accept file edits, still
 // prompts for other tool calls), guarded needs no flag (claude's own
 // interactive default already behaves like "guarded").
 //
 // codex is fail-closed by default (Codex advisory 2, plan Design decisions
-// "codex は fail-closed"): codex's interactive-mode permission/sandbox
+// "codex fails closed"): codex's interactive-mode permission/sandbox
 // flags have not been live-verified against a real codex seat by this PR,
 // so anything other than guarded (no flag -- codex's own CLI default) is
 // rejected outright unless cfg.Permissions.CodexVerified is true. The

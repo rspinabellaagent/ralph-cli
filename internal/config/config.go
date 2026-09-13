@@ -44,11 +44,11 @@ type OrgConfig struct {
 	Roles map[string][]string `toml:"roles"`
 	// MaxSeats caps concurrently spawned seats per org_id namespace.
 	MaxSeats int `toml:"max_seats"`
-	// Budget holds wall-clock and fix-round ceilings for org seats. PR①
-	// records these values only; enforcement (Watchdog) lands in PR④.
+	// Budget holds wall-clock and fix-round ceilings for org seats. PR 1
+	// records these values only; enforcement (Watchdog) lands in PR 4.
 	Budget OrgBudgetConfig `toml:"budget"`
-	// DeadmanMinutes is a reserved field for the PR④ Watchdog deadman timer.
-	// PR① only stores and round-trips this value; nothing consumes it yet.
+	// DeadmanMinutes is a reserved field for the PR 4 Watchdog deadman timer.
+	// PR 1 only stores and round-trips this value; nothing consumes it yet.
 	DeadmanMinutes int `toml:"deadman_minutes"`
 	// AgmsgHome is the agmsg installation directory (a collection of
 	// scripts, not a single binary -- see internal/org/driver/agmsg.go).
@@ -62,7 +62,7 @@ type OrgConfig struct {
 	// OrgPermissionsConfig's doc comment.
 	Permissions OrgPermissionsConfig `toml:"permissions"`
 	// Watchdog holds the pulse-layer/watcher-layer settings for `ralph org
-	// watch` (PR④). See OrgWatchdogConfig's doc comment.
+	// watch` (PR 4). See OrgWatchdogConfig's doc comment.
 	Watchdog OrgWatchdogConfig `toml:"watchdog"`
 }
 
@@ -83,7 +83,7 @@ type OrgPermissionsConfig struct {
 	// CodexVerified gates whether internal/org's permissionArgsForDriver
 	// maps codex's autonomous/edits modes to real CLI flags (`--sandbox
 	// workspace-write --ask-for-approval never` / `--sandbox
-	// workspace-write`) instead of fail-closed-rejecting them (PR④ AC-8,
+	// workspace-write`) instead of fail-closed-rejecting them (PR 4 AC-8,
 	// docs/plans/active/2026-08-02-org-runtime-watchdog.md). codex's
 	// interactive sandbox/approval flags have not been live-verified against
 	// a real codex seat as of this field's introduction -- only Slice 5's
