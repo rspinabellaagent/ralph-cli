@@ -10,14 +10,14 @@ import (
 // the prompt templates version-locked -- a `ralph` binary always ships with
 // the exact prompt text it was built with, per the plan's "go:embed only"
 // design decision (see docs/plans/active/2026-08-02-org-runtime-seats.md,
-// "役割プロンプトの配置").
+// "where role prompts live").
 //
 //go:embed prompts/*.md
 var promptFS embed.FS
 
 // defaultScopeText substitutes for {{SCOPE}} when RolePromptVars.Scope is
 // empty (SpawnParams.Scope is an optional --scope flag), so a rendered
-// prompt never reads "scope:  の範囲外は..." with nothing after the colon --
+// prompt never reads "outside scope: ." with nothing after the colon --
 // an instruction referencing an empty scope is worse than an explicit
 // "not specified" (self-review finding M5).
 const defaultScopeText = "unspecified (stay read-oriented and follow the repository conventions)"
@@ -36,7 +36,7 @@ type RolePromptVars struct {
 	// and qa.md do not reference {{PLAN_PATH}} (removed: no production
 	// caller populated it, so every rendered prompt shipped a literal
 	// "- plan: " with nothing after it -- self-review finding M5). The field
-	// is kept so PR③ (Lead 自律編成) can wire a `--plan` flag through to a
+	// is kept so PR 3 (Lead autonomous composition) can wire a `--plan` flag through to a
 	// template substitution without another RolePromptVars schema change.
 	PlanPath string
 	// Task is the task text substituted for {{TASK}} -- currently only
@@ -76,7 +76,7 @@ func RenderRolePrompt(role string, vars RolePromptVars) (string, bool, error) {
 		"{{TEAM}}", vars.Team,
 		"{{ROLE}}", vars.Role,
 		"{{SCOPE}}", scope,
-		// PLAN_PATH is reserved for PR③ (no template uses it today). The
+		// PLAN_PATH is reserved for PR 3 (no template uses it today). The
 		// replacer entry stays so a template that re-adds {{PLAN_PATH}} can
 		// never ship the literal placeholder to a seat.
 		"{{PLAN_PATH}}", vars.PlanPath,

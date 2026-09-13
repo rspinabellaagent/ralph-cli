@@ -56,7 +56,7 @@ RALPH_ORG_AGMSG_HOME="${RALPH_ORG_AGMSG_HOME:-~/.agents/skills/agmsg}"
 # verb reads it from the environment.
 RALPH_ORG_PERMISSION_DEFAULT="${RALPH_ORG_PERMISSION_DEFAULT:-autonomous}"
 # RALPH_ORG_PERMISSIONS_CODEX_VERIFIED mirrors
-# [org.permissions].codex_verified (PR④ AC-8): false keeps codex seats
+# [org.permissions].codex_verified (PR 4 AC-8): false keeps codex seats
 # fail-closed to guarded until an operator has live-verified their installed
 # codex CLI's interactive sandbox/approval flags. Kept unexported for the
 # same reason as RALPH_ORG_PERMISSION_DEFAULT above: nothing in this file's

@@ -92,7 +92,7 @@ func requireSeatIdentifier(flag, value string) error {
 // (cmd.Flags().Changed("state-dir")) for org.ResolveOrgStateDir's flag >
 // env > git-toplevel > cwd precedence -- see that function's doc comment
 // for the full rationale (fixes the lead/operator cwd-split, tech-debt
-// "state-dir の cwd 相対解決"). A caller that also needs the resolved
+// "resolving state-dir relative to cwd"). A caller that also needs the resolved
 // config.OrgConfig for its own purposes beyond wiring (e.g.
 // newOrgStartCmd's --model default resolution via
 // org.DefaultModelForDriver) reads it back off the returned *org.Org's
@@ -231,8 +231,8 @@ func printSpawnResult(cmd *cobra.Command, r org.SpawnResult) {
 }
 
 // newOrgStartCmd wires `ralph org start` -- headless-lead spawn sugar over
-// (*org.Org).Spawn, per the plan's design decision ("`org start` = lead 座席
-// の spawn 糖衣", docs/plans/active/2026-08-02-org-runtime-lead.md). It
+// (*org.Org).Spawn, per the plan's design decision ("`org start` = sugar for spawning
+// the lead seat", docs/plans/active/2026-08-02-org-runtime-lead.md). It
 // always spawns SeatID == Role == org.LeadIdentity ("lead"): the org's
 // coordinating agmsg identity and the lead seat are, by design, the same
 // seat -- see the leadSelfSpawn branch in internal/org/spawn.go's Spawn.
@@ -599,7 +599,7 @@ func newOrgDisbandCmd(orgID, stateDir, configPath *string) *cobra.Command {
 	return cmd
 }
 
-// newOrgReportCmd wires `ralph org report` (AC-4, FR-9 後半): reads the
+// newOrgReportCmd wires `ralph org report` (AC-4, FR-9 second half): reads the
 // manifest + model receipts for --org-id and writes an org-manifest report
 // to docs/reports/ via (*org.Org).Report -- see internal/org/report.go's
 // BuildOrgReport for the report's sections (roster, event timeline, model
@@ -637,7 +637,7 @@ func newOrgReportCmd(orgID, stateDir, configPath *string) *cobra.Command {
 	return cmd
 }
 
-// newOrgWatchCmd wires `ralph org watch` (PR④ pulse layer, AC-3/3b/3c/4/5):
+// newOrgWatchCmd wires `ralph org watch` (PR 4 pulse layer, AC-3/3b/3c/4/5):
 // a deterministic, interval-driven condition loop over (*org.Org).RunWatch.
 // All condition evaluation, budget-cutoff, ALERT dedupe, and deadman
 // escalation logic lives in internal/org/watch.go -- this command resolves
@@ -722,7 +722,7 @@ func newOrgWatchCmd(orgID, stateDir, configPath *string) *cobra.Command {
 }
 
 // newWatchdogHooks builds the org.WatchHooks `ralph org watch` wires into
-// RunWatch (PR④ Slice 4, AC-6): when rt.Config.Watchdog.WatcherEnabled is
+// RunWatch (PR 4 Slice 4, AC-6): when rt.Config.Watchdog.WatcherEnabled is
 // false, OnSemanticTrigger is left nil (WatchHooks' documented no-op
 // default) -- the pulse layer never invokes an LLM on its own. When true,
 // OnSemanticTrigger runs (*org.Org).RunWatcher in its own goroutine so a

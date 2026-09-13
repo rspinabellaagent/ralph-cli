@@ -303,7 +303,7 @@ func finishNoOpUpgradeV2(absDir, version string, plan upgrade.ReplacePlan, out, 
 }
 
 // removeLegacyBaselineIfPresent removes a leftover .ralph/baseline directory
-// (Phase 3 removed the baseline mechanism entirely — see the plan's 後始末
+// (Phase 3 removed the baseline mechanism entirely — see the plan's Cleanup
 // step) without attempting any write when the directory is already absent:
 // callers, including the true-no-op path (finishNoOpUpgradeV2), must not
 // perform an unconditional RemoveAll on every run.

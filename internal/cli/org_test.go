@@ -56,7 +56,7 @@ exit 0
 `
 
 // agmsgSendStub is the fake `scripts/send.sh` that lives under a temp
-// agmsg-home directory (see setupOrgStubPATH). Unlike the old PR① fake
+// agmsg-home directory (see setupOrgStubPATH). Unlike the old PR 1 fake
 // (a single `agmsg` binary on PATH parsing --team/--as flags), the real
 // agmsg interface is a script collection: driver.Agmsg shells out to
 // `bash <home>/scripts/send.sh TEAM FROM TO MESSAGE`, so this stub only
@@ -1586,7 +1586,7 @@ func TestOrgWatch_Once_BannerShowsStateDirSource(t *testing.T) {
 	}
 }
 
-// --- newWatchdogHooks (PR④ Slice 4, AC-6 wiring) -----------------------
+// --- newWatchdogHooks (PR 4 Slice 4, AC-6 wiring) -----------------------
 
 // writeClaudeStub writes a fake `claude` executable to a fresh temp dir and
 // prepends it to PATH -- the same PATH-stubbed convention

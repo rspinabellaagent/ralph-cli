@@ -20,7 +20,7 @@ const defaultOrgStateDirRelPath = ".harness/state/org"
 
 // ResolveOrgStateDir resolves the org state directory using the precedence
 // order documented in docs/plans/active/2026-08-02-org-runtime-watchdog.md
-// (tech-debt: "state-dir の cwd 相対解決" -- the lead/operator cwd-split):
+// (tech-debt: "resolving state-dir relative to cwd" -- the lead/operator cwd-split):
 //
 //  1. explicit flag ("flag") -- explicitSet is true (the caller passed
 //     --state-dir; detected via cobra's cmd.Flags().Changed("state-dir")

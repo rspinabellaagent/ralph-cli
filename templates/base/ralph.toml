@@ -25,7 +25,7 @@ model_pool = [
 ]
 # max_seats caps concurrently spawned seats per org_id namespace.
 max_seats = 5
-# deadman_minutes is reserved for the PR④ Watchdog deadman timer; PR① only
+# deadman_minutes is reserved for the PR 4 Watchdog deadman timer; PR 1 only
 # stores and round-trips this value.
 deadman_minutes = 10
 # agmsg_home points at the agmsg installation -- a directory of scripts

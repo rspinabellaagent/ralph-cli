@@ -12,7 +12,7 @@ import (
 // realWorkspaceCreateEnvelope and realTabCreateEnvelope are captured live
 // from herdr v0.7.5 (see docs/plans/active/2026-08-02-org-runtime-seats.md,
 // "Implementation notes (deviations)"). Real herdr wraps every command's
-// stdout in a JSON envelope; the PR① adapter wrongly assumed trimmed stdout
+// stdout in a JSON envelope; the PR 1 adapter wrongly assumed trimmed stdout
 // was a bare id.
 const realWorkspaceCreateEnvelope = `{"id":"cli:workspace:create","result":{"root_pane":{"pane_id":"w3:p1","tab_id":"w3:t1","workspace_id":"w3"},"tab":{"tab_id":"w3:t1"},"type":"workspace_created","workspace":{"active_tab_id":"w3:t1","workspace_id":"w3"}}}`
 
